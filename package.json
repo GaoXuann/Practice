@@ -1,0 +1,9 @@
+{
+  "name": "",
+  "version": "",
+  "dependencies": {
+    "art-template": "^4.13.1",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1"
+  }
+}
