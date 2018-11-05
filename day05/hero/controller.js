@@ -10,7 +10,7 @@ module.exports = {
     selAllHero: (req, res) => {
         const allSql = "select * from hero"
         conn.query(allSql, (err, result) => {
-            if (err) res.send({ status: 500, msg: err.message, data: null })
+            if (err) return res.send({ status: 500, msg: err.message, data: null })
             res.send({ status: 200, msg: 'ok', data: result })
             console.log(result)
         })
@@ -20,7 +20,7 @@ module.exports = {
         const id = req.params.id
         const selSql = "select * from hero where id = ?"
         conn.query(selSql, id, (err, data) => {
-            if (err) res.send({ status: 500, msg: err.message, result: null })
+            if (err) return res.send({ status: 500, msg: err.message, result: null })
             res.send({ status: 200, msg: 'ok', result: null })
             console.log(data)
         })
@@ -40,7 +40,7 @@ module.exports = {
             // console.log(hero)
         const addSql = "insert into hero set ?"
         conn.query(addSql, hero, (err, data) => {
-            if (err) res.send({ status: 500, msg: err.message, result: null })
+            if (err) return res.send({ status: 500, msg: err.message, result: null })
             res.send({ status: 200, msg: 'ok', result: data })
         })
     },
