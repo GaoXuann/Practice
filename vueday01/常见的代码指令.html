@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+        /* [v-cloak] {
+            display: none;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-text渲染文本 -->
+        <!-- v-text回覆盖元素中原本的内容 -->
+        <!-- <p v-text='msg'>-------</p> -->
+
+
+        <!-- v-cloak解决插值表达式的闪烁的问题 -->
+        <!-- <p v-cloak>{{msg}}</p> -->
+
+        <!-- 差值表达式只会替换自己这个占位符，不会把整个内容清空 -->
+        <!-- <p>{{msg}}</p> -->
+
+        <!-- v-html可以渲染html -->
+        <!-- <p v-html='msg1'></p> -->
+
+
+        <!-- v-bind是vue中提供用于绑定属性的指令 -->
+        <!-- <input type="button" value="按钮" v-bind:title='msg+123'> -->
+        <!-- :是v-bind的简写 -->
+        <!-- <input type="button" :value="msg"> -->
+
+
+
+        <!-- v-on:事件绑定 -->
+        <!-- <input type="button" value="按钮" v-on:click="show"> -->
+        <input type="button" value="按钮" @click='show'>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '感谢你曾经来过',
+                msg1: '<h1>感谢你曾经来过</h1>'
+            },
+            methods: {
+                show() {
+                    alert('hellow')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

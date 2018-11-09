@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <style>
+        .inner {
+            width: 220px;
+            height: 220px;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- .stop阻止冒泡 -->
+        <!-- <div class="inner" @click='divHandler'>
+            <input type="button" value="点击" @click.stop='btnHandler'>
+        </div> -->
+
+
+        <!-- .prevent阻止事件的默认行为 -->
+        <!-- <a href="http://www.baidu.com" @click.prevent='linkClick'>欢迎来到百度</a> -->
+
+        <!-- .self实现只有点击当前元素时候才会触发处理函数 -->
+        <!-- <div class="inner" @click.self='divHandler'>
+            <input type="button" value="点击" @click='btnHandler'>
+        </div> -->
+
+        <!-- .once只会执行一次 -->
+        <!-- <div class="inner" @click.self.once='divHandler'>
+            <input type="button" value="点击" @click='btnHandler'>
+        </div> -->
+
+        <!-- capture实现事件捕获的机制，从外到内 -->
+        <div class="inner" @click.capture='divHandler'>
+            <input type="button" value="点击" @click='btnHandler'>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                divHandler() {
+                    console.log('这是触发了div');
+                },
+                btnHandler() {
+                    console.log('触发了btn');
+                },
+                linkClick() {
+                    console.log('触发连接的点击事件');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
