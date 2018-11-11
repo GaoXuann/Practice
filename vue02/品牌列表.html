@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="./lib/bootstrap-3.3.7.css">
+
+</head>
+
+<body>
+    <div id="app">
+
+
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+          Id:
+          <input type="text" class="form-control" v-model='id'>
+        </label>
+
+                <label>
+          Name:
+          <input type="text" class="form-control" v-model='name' @keyup.f2 = 'add' >
+          <!-- <input type="text" class="form-control" v-model='name' @keyup.113 = 'add' > -->
+          <!-- <input type="text" class="form-control" v-model='name' @keyup.enter = 'add' > -->
+        </label>
+
+                <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+
+                <label>
+          搜索名称关键字：
+          <input type="text" class="form-control"  v-model='keywords' v-focus v-color='"green"'>
+        </label>
+            </div>
+        </div>
+
+
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Ctime</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 之前， v-for 中的数据，都是直接从 data 上的list中直接渲染过来的 -->
+                <!-- 现在， 我们自定义了一个 searc h 方法，同时，把 所有的关键字，通过传参的形式，传递给了 search 方法 -->
+                <!-- 在 search 方法内部，通过 执行 for 循环， 把所有符合 搜索关键字的数据，保存到 一个新数组中，返回 -->
+                <tr v-for='item in search(keywords)' :key='item.id'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime | timeFormat()}}</td>
+                    <td>
+                        <a href="" @click.prevent='del(item.id)'>删除</a>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+    <script>
+        //全局过滤器
+        Vue.filter('timeFormat', function(date, pattern = '') {
+            var dt = new Date(date)
+            var y = dt.getFullYear().toString().padStart(2, '0')
+            var m = (dt.getMonth() + 1).toString().padStart(2, '0')
+            var d = dt.getDate().toString().padStart(2, '0')
+            if (pattern.toLowerCase() === 'yyyy-mm-dd') {
+                return `${y}-${m}-${d}`
+            } else {
+                var hh = dt.getHours().toString().padStart(2, '0')
+                var mm = dt.getMinutes().toString().padStart(2, '0')
+                var ss = dt.getSeconds().toString().padStart(2, '0')
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+            }
+
+        })
+
+
+        //按键修饰符
+        Vue.config.keyCodes.f2 = 113
+
+        //使用Vue.directive()
+        //定义全局的指令 v-focus
+        //参数1：指令的名称，在定义的时候不需要加前缀
+        //但是在调用的时候必须加上前缀-v
+        // 参数2：是一个对象
+        Vue.directive('focus', {
+            bind: function(el) {
+
+            },
+            inserted: function(el) {
+                el.focus()
+            },
+            update: function(el) {
+
+            }
+        })
+
+        //定义一个设置颜色的属性
+        Vue.directive('color', {
+            bind(el, binding) {
+                el.style.color = binding.value
+
+            }
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: '',
+                name: '',
+                keywords: '',
+                list: [{
+                    id: 1,
+                    name: '盛夏',
+                    ctime: new Date()
+                }, {
+                    id: 2,
+                    name: '无问西东',
+                    ctime: new Date()
+                }]
+            },
+            methods: {
+                add() {
+                    var mylove = {
+                        id: this.id,
+                        name: this.name,
+                        ctime: new Date()
+                    }
+                    this.list.push(mylove)
+                    this.id = this.name = ''
+                },
+                del(id) {
+                    alert(id)
+                        // this.list.some((item, i) => {
+                        //     if (item.id = id) {
+                        //         // splice(i,1)从第i个开始删除删除一个
+                        //         this.list.splice(i, 1)
+                        //         return true;
+                        //     }
+                        // })
+
+
+                    //findIndex查找满足条件的索引
+                    // 当数组中的元素在测试条件时返回 true 时, findIndex()
+                    //  返回符合条件的元素的索引位置，之后的值不会再调用执行函数。
+                    var index = this.list.findIndex(item => {
+                        if (item.id = id) {
+                            return true;
+                        }
+                    })
+                    this.list.splice(index, 1)
+
+
+                },
+                search(keywords) {
+                    // var newList = []
+                    // this.list.some(item => {
+                    //     if (item.name.indexOf(keywords) != -1) {
+                    //         newList.push(item)
+                    //     }
+                    // })
+                    // return newList
+
+
+                    return this.list.filter(item => {
+                            // if (item.name.indexOf(keywords != -1)) 
+
+                            if (item.name.includes(keywords)) {
+                                return item
+                            }
+                        })
+                        // return newList
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
