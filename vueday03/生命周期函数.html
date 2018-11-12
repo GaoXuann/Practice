@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="修改msg" @click='msg="no"'>
+        <h3 id="h3">{{msg}}</h3>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app ',
+            data: {
+                msg: 'ok '
+            },
+            methods: {
+                show() {
+                    console.log('执行了show方法 ')
+                }
+            },
+            beforeCreate() {
+                //这是我们遇到的第一个生命周期函数，表示实例完全被创建之前会执行
+                // console.log(this.msg)
+                // this.show()
+                // 在beforeCreate生命函数的时候data和methods中的数据都没有被初始化
+            },
+            created() {
+                //在遇到第二个生命周期函数的时候,data和methods中的数据都被初始化好了
+                // console.log(this.msg)
+                // console.log(this.show())
+            },
+            beforeMount() {
+                //遇到第三个生命周期的时候表示模板已经在内存中编辑完成。但是尚未把模板渲染到页面
+                // console.log(document.getElementById('h3 ').innerText)
+            },
+            mounted() {
+                //这是遇到的第四个生命周期函数。表示内存中的模板。已经真实的挂载到了页面当中，用户可以看到渲染的页面
+                // console.log(document.getElementById('h3 ').innerText)
+                //当执行到第四个阶段说明实例创建完成
+            },
+            beforeUpdate() {
+                //数据发生了改变，页面中的内容是旧的但是date中的数据是新的，页面和最新数据没有同步
+                // console.log(document.getElementById('h3').innerText)
+                // console.log(this.msg)
+            },
+            updated() {
+                console.log(document.getElementById('h3').innerText)
+                console.log(this.msg)
+                    // 数据同步
+            }
+
+        })
+    </script>
+</body>
+
+</html>
