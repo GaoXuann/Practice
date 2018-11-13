@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <a href="" @click.prevent="comName='register'">难过</a>
+        <a href="" @click.prevent="comName='login'">无可奈何</a>
+
+        <!-- Vue提供了component来展示对应名称的组件，是一个占位符，:is属性可以用来展示指定的组件名称 -->
+        <component :is='comName'></component>
+    </div>
+    <script>
+        Vue.component('login', {
+            template: '<h2>无可奈何不耐烦</h2>'
+        })
+        Vue.component('register', {
+            template: '<h2>散落太多好难过</h2>'
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                comName: 'login'
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
