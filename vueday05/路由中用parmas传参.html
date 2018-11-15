@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <script src="lib/vue-router-3.0.1.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to='/login/1/zs'>登录</router-link>
+        <router-link to='/register/:id/:name'>注册</router-link>
+        <router-view></router-view>
+    </div>
+    <script>
+        var login = {
+            template: '<h2>但年轮和青春不可相认---{{$route.params.id}}</h2>'
+        }
+        var register = {
+            template: '<h3>从你的全世界路过</h3>'
+        }
+        var router = new VueRouter({
+            routes: [{
+                path: '/login/:id/:name',
+                component: login
+            }, {
+                path: '/register/:id/:name',
+                component: register
+            }]
+        })
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            router
+        })
+    </script>
+</body>
+
+</html>
