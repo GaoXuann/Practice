@@ -11,25 +11,29 @@
 
 <body>
     <div id="app">
-        <conn></conn>
+        <son :parent='msg'></son>
     </div>
     <script>
+        var son = {
+            data() {
+                return {
+                    title: '111',
+                    msg: 'hellow'
+                }
+            },
+            //子组件可以用自己的数据，如果要使用父组件的数据可以用bind:的形式将值传递给子组件
+            template: '<h3>只为写下所有遇见{{title}}--{{parent}}</h3>',
+            //把父组件的值传递过来
+            props: ['parent']
+        }
         var vm = new Vue({
             el: '#app',
             data: {
                 msg: '父组件中的数据'
             },
             methods: {},
-            component: {
-                conn: {
-                    data() {
-                        return {
-                            title: '111',
-                            content: 'we'
-                        }
-                    },
-                    template: '<h3 >{{title}}</h3>'
-                }
+            components: {
+                son
             }
         })
     </script>

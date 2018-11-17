@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <con @func='show'>
+        </con>
+    </div>
+    <template id="tmp">
+            <div>
+                    <h1>这是 子组件</h1>
+                    <input type="button" value="这是子组件中的按钮 - 点击它，触发 父组件传递过来的 func 方法" @click="myclick">
+            </div>
+    </template>
+    <script>
+        let con = {
+            template: '#tmp',
+            data() {
+                return {
+                    name: 'tom',
+                    age: 6
+                }
+            },
+            methods: {
+                myclick() {
+                    this.$emit('func', this.name)
+                        // console.log('11')
+                }
+            }
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                dataSon: null
+            },
+            methods: {
+                show(data) {
+                    // console.log('父组件的方法' + data)
+                    this.dataSon = data
+                }
+            },
+            components: {
+                con
+            }
+        })
+    </script>
+</body>
+
+</html>

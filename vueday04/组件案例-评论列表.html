@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="lib/vue-2.4.0.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+</head>
+
+<body>
+    <div id="app">
+        <con @func='show'></con>
+        <ul class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人： {{ item.user }}</span> {{ item.content }}
+            </li>
+        </ul>
+
+    </div>
+    <template id="tmp">
+            <div>
+
+                    <div class="form-group">
+                      <label>评论人：</label>
+                      <input type="text" class="form-control" v-model="user">
+                    </div>
+              
+                    <div class="form-group">
+                      <label>评论内容：</label>
+                      <textarea class="form-control" v-model="content"></textarea>
+                    </div>
+              
+                    <div class="form-group">
+                      <input type="button" value="发表评论" class="btn btn-primary" @click='postCommond' >
+                    </div>
+              
+                  </div>
+    </template>
+    <script>
+        let con = {
+            data() {
+                return {
+                    user: '',
+                    content: '',
+                    // list: []
+                }
+            },
+            methods: {
+                postCommond() {
+                    var commont = {
+                            id: Date.now(),
+                            user: this.user,
+                            content: this.content
+                        },
+                        //获取当前localStorage中所有的评论,如果有返回值，没有返回空数组字符串，然后转换成对象存入list
+                        var list = JSON.parse(localStorage.getItem('men') || '[]')
+                    list.unshift(commont)
+                        //保存最新的评论数据
+                    localStorage.setItem('men', JSON.stringify(list))
+
+                    this.user = this.content = ''
+
+                    // this.loadComments() // ?????
+                    // this.$emit('func')
+                }
+            },
+            template: '#tmp'
+        }
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    id: new Date(),
+                    user: '小白',
+                    content: '天生我材必有用'
+                }, {
+                    id: new Date(),
+                    user: '小黄',
+                    content: '天下无贼'
+                }, ]
+            },
+            methods: {
+                show() { // 从本地的 localStorage 中，加载评论列表
+                    var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+                    this.list = list
+                }
+            },
+            components: {
+                con
+            }
+        })
+    </script>
+</body>
+
+</html>
